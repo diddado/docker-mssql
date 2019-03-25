@@ -1,0 +1,19 @@
+version: '3.1'
+
+volumes:
+  mssql_data:
+
+services:
+  mssql:
+    container_name: mssql_${MSSQL_VERSION:-2017-latest}
+    # restart: always
+    image: mcr.microsoft.com/mssql/server:${MSSQL_VERSION:-2017-latest}
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: ${SA_PASSWORD:-YourStrong!Passw0rd}
+    volumes:
+      - mssql_data:/var/opt/mssql
+      - ${MSSQL_BACKUP_FOLDER:-C:\MsSQLData}:/mnt/backups
+    ports:
+      - ${MSSQL_PORT:-1433}:1433
+
